@@ -174,7 +174,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -198,7 +198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 5, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -233,6 +233,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee027f038d7cfa84189ca8aa70ac237f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minBoardSize: 4
+  maxBoardSize: 6
+  minPuzzlePieceCount: 4
+  maxPuzzlePieceCount: 8
+  materialPrefab: {fileID: 2100000, guid: 76eef6842601b654eb11de5833acade8, type: 2}
 --- !u!4 &520368933
 Transform:
   m_ObjectHideFlags: 0
@@ -262,7 +267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &785328352
 Transform:
   m_ObjectHideFlags: 0
