@@ -5,27 +5,33 @@ using UnityEngine;
 
 namespace Puzzle2DSystem
 {
-    public class PuzzleData
+    public class PuzzleDataController
     {
-        public PuzzleBoard PuzzleBoard { get; }
-        public List<PuzzlePiece> PuzzlePieces { get; private set; }
+        public PuzzleData PuzzleData { get; private set; }
         List<TriangleData> allTriangles = new List<TriangleData>();
         List<TriangleData> availableTriangles = new List<TriangleData>();
 
         int maxPuzzlePieceCount;
         int maxTriangleCount;
 
-        public PuzzleData(int boardSize, int puzzlePieceCount)
+        public PuzzleDataController(int boardSize, int puzzlePieceCount)
         {
-            PuzzleBoard  = new PuzzleBoard(boardSize);
+            PuzzleData = new PuzzleData();
+            PuzzleData.PuzzleBoard = new PuzzleBoard(boardSize);
             this.maxPuzzlePieceCount = puzzlePieceCount;
-            this.maxTriangleCount = boardSize* boardSize;
-            PuzzlePieces = new List<PuzzlePiece>();
-            Debug.Log("contactPoints " + PuzzleBoard.ContactPoints.Length);
-            foreach (var contactPoint in PuzzleBoard.ContactPoints)
+            this.maxTriangleCount = boardSize * boardSize;
+            PuzzleData.PuzzlePieces = new List<PuzzlePiece>();
+            foreach (var contactPoint in PuzzleData.PuzzleBoard.ContactPoints)
             {
                 allTriangles.AddRange(contactPoint.Triangles);
             }
+            CreateMainPuzzlePieces(puzzlePieceCount);
+
+            AssignRestOfTheLeftAvailableTrianglesToPuzzlePiece();
+        }
+
+        void CreateMainPuzzlePieces(int puzzlePieceCount)
+        {
             availableTriangles = allTriangles;
             var triangles = availableTriangles.ToArray();
             foreach (var triangle in triangles)
@@ -33,22 +39,20 @@ namespace Puzzle2DSystem
                 triangle.SetMyNeighbours(triangles);
             }
 
-            //Extra 25 try for if piece is too small
-            for (int i = 0; i < puzzlePieceCount+25; i++)
+            //Extra 25 try for if piece is too small.
+            for (int i = 0; i < puzzlePieceCount + 25; i++)
             {
-                if (PuzzlePieces.Count >= puzzlePieceCount)
+                if (PuzzleData.PuzzlePieces.Count >= puzzlePieceCount)
                     break;
                 CreatePuzzlePiece();
             }
-
-            AssignRestOfTheLeftAvailableTrianglesToPuzzlePiece();
         }
 
         void CreatePuzzlePiece()
         {
             if (availableTriangles.Count == 0)
                 return;
-            availableTriangles= availableTriangles.OrderBy(a => Guid.NewGuid()).ToList();
+            ReOrderAvailableTriangles();
             int index = -1;
             for (int i = 0; i < availableTriangles.Count; i++)
             {
@@ -63,7 +67,6 @@ namespace Puzzle2DSystem
                 return;
             List<TriangleData> triangleDatas = new List<TriangleData>();
             triangleDatas.Add(availableTriangles[index]);
-            availableTriangles[index].CheckingForPuzzlePiece = true;
 
             var randomNeighbour = triangleDatas[0].GetRandomAvailableNeighbour();
 
@@ -74,36 +77,30 @@ namespace Puzzle2DSystem
                 if (randomNeighbour == null)
                     break;
                 triangleDatas.Add(randomNeighbour);
-                randomNeighbour.CheckingForPuzzlePiece = true;
             }
 
-            if(triangleDatas.Count > PuzzleBoard.BoardSize)
+            if(triangleDatas.Count > PuzzleData.PuzzleBoard.BoardSize)
             {
                 triangleDatas.ForEach(t => availableTriangles.Remove(t));
                 var puzzlePiece = new PuzzlePiece(triangleDatas);
-                PuzzlePieces.Add(puzzlePiece);
-            }
-            else
-            {
-                triangleDatas.ForEach(t => t.CheckingForPuzzlePiece = false);
+                PuzzleData.PuzzlePieces.Add(puzzlePiece);
             }
 
         }
-
 
         void AssignRestOfTheLeftAvailableTrianglesToPuzzlePiece()
         {
             while(availableTriangles.Count>0)
             {
-                AssignLeftAvailableTrianglesToPuzzlePiece();
+                AssignLeftAvailableTrianglesToTheSmallestAvailablePuzzlePiece();
             }
         }
 
-        void AssignLeftAvailableTrianglesToPuzzlePiece()
+        void AssignLeftAvailableTrianglesToTheSmallestAvailablePuzzlePiece()
         {
             if (availableTriangles.Count == 0)
                 return;
-            availableTriangles = availableTriangles.OrderBy(a => Guid.NewGuid()).ToList();
+            ReOrderAvailableTriangles();
 
             int index = -1;
             for (int i = 0; i < availableTriangles.Count; i++)
@@ -118,13 +115,13 @@ namespace Puzzle2DSystem
                 return;
 
             var neighbourOwners = availableTriangles[index].GetNeighbourOwners().OrderBy(owner => owner.TriangleDatas.Count()).ToList();
-            for (int i = 0; i < neighbourOwners.Count; i++)
-            {
-                 Debug.Log("neighbourOwners[i].TriangleDatas"+ neighbourOwners[i].TriangleDatas.Count());
-            }
             AddTriangleToPuzzlePiece(availableTriangles[index], neighbourOwners[0]);
 
-            Debug.Log("availableTriangles " + availableTriangles.Count);
+        }
+
+        private void ReOrderAvailableTriangles()
+        {
+            availableTriangles = availableTriangles.OrderBy(a => Guid.NewGuid()).ToList();
         }
 
         void AddTriangleToPuzzlePiece(TriangleData triangleData,PuzzlePiece puzzlePiece)

@@ -11,7 +11,6 @@ namespace Puzzle2DSystem
         public Vector2 Center { get; }
         public Vector2[] Points { get; }
         public TriangleData[] Neighbours { get; private set; }
-        public bool CheckingForPuzzlePiece;
         public PuzzlePiece Owner;
 
         public TriangleData(ContactPoint contactPoint, Vector2[] points)
@@ -46,7 +45,7 @@ namespace Puzzle2DSystem
             var availableNeighbours = new List<TriangleData>();
             foreach (var neighbour in Neighbours)
             {
-                if (neighbour.Owner == null&& !neighbour.CheckingForPuzzlePiece)
+                if (neighbour.Owner == null)
                     availableNeighbours.Add(neighbour);
             }
             return availableNeighbours;

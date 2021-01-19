@@ -26,5 +26,4 @@ namespace Puzzle2DSystem
             }
         }
     }
-
 }

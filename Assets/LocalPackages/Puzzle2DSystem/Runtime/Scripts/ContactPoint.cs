@@ -28,7 +28,5 @@ namespace Puzzle2DSystem
                 Triangles[i] = new TriangleData(this,new Vector2[] { Position, Position+clockwisePoints[i], Position+clockwisePoints[(i+1) % 8] });
             }
         }
-
     }
-
 }

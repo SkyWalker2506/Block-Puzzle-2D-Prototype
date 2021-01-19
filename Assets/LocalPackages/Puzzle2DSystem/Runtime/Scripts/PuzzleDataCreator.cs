@@ -19,10 +19,17 @@ namespace Puzzle2DSystem
 
         public PuzzleData GetRandomPuzzleData()
         {
+            return GetRandomPuzzleDataController().PuzzleData;
+        }
+
+        PuzzleDataController GetRandomPuzzleDataController()
+        {
             int boardSize = Random.Range(minBoardSize, maxBoardSize + 1);
             int pieceCount = Random.Range(minPuzzlePieceCount, maxPuzzlePieceCount + 1);
-            return new PuzzleData(boardSize, pieceCount);
+            return new PuzzleDataController(boardSize, pieceCount);
         }
+
+
     }
 
 }

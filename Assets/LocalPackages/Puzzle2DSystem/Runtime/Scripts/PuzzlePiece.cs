@@ -10,7 +10,6 @@ namespace Puzzle2DSystem
         public List<ContactPoint> ContactPoints { get; private set; }
         public Vector2 Center { get; private set; }
 
-
         public PuzzlePiece(List<TriangleData> triangleDatas)
         {
             TriangleDatas = new List<TriangleData>();
@@ -25,7 +24,6 @@ namespace Puzzle2DSystem
         public void AddTriangle(TriangleData triangleData)
         {
             triangleData.Owner = this;
-            triangleData.CheckingForPuzzlePiece = false;
             TriangleDatas.Add(triangleData);
             if (!ContactPoints.Contains(triangleData.ContactPoint))
                 ContactPoints.Add(triangleData.ContactPoint);
