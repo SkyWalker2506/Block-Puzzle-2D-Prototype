@@ -13,6 +13,11 @@ namespace Puzzle2DSystem
             materialPrefab = material;
         }
 
+        public override void SetPuzzleData(PuzzleData data)
+        {
+            puzzleData = data;
+        }
+
         public override GameObject CreateBoardVisual()
         {
             var board = new GameObject("Board");

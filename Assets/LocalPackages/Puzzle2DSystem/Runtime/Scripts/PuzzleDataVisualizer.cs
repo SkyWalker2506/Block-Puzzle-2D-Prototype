@@ -7,7 +7,7 @@ namespace Puzzle2DSystem
     {
         public GameObject[] PuzzlePieces { get; protected set; }
 
-
+        public abstract void SetPuzzleData(PuzzleData data);
         public abstract GameObject CreateBoardVisual();
         public abstract GameObject[] CreatePuzzlePiecesVisual();
     }

@@ -16,6 +16,12 @@ namespace Puzzle2DSystem
         }
 
 
+        public override void SetPuzzleData(PuzzleData data)
+        {
+            puzzleData = data;
+        }
+
+
         public override GameObject CreateBoardVisual()
         {
             var board = new GameObject("Board ", typeof(MeshFilter), typeof(MeshRenderer));
@@ -60,8 +66,6 @@ namespace Puzzle2DSystem
             }
             return PuzzlePieces;
         }
-
-
         GameObject CreatePuzzlePiece(PuzzlePiece puzzlePiece)
         {
             var piece = new GameObject("Piece ",typeof(MeshFilter), typeof(MeshRenderer));

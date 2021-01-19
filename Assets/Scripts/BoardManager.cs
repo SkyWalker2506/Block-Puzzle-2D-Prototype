@@ -29,15 +29,22 @@ public class BoardManager : MonoBehaviour
     {
         puzzleDataCreator = new PuzzleDataCreator(minBoardSize, maxBoardSize, minPuzzlePieceCount, maxPuzzlePieceCount);
         puzzleData = puzzleDataCreator.GetRandomPuzzleData();
+        if (useLineRenderer)
+            puzzleDataVisualizer = new PuzzleDataVisualizerWithLineRenderers(puzzleData, materialPrefab);
+        else
+            puzzleDataVisualizer = new PuzzleDataVisualizerWithMeshRenderer(puzzleData, materialPrefab);
 
     }
 
-    [ContextMenu("Create Random Board")]
+
+
+    [ContextMenu("Create Random Puzzle")]
     public void CreateRandomPuzzle()
     {
         if (puzzleBoard)
             Destroy(puzzleBoard);
         puzzleData = puzzleDataCreator.GetRandomPuzzleData();
+        puzzleDataVisualizer.SetPuzzleData(puzzleData);
         if (puzzlePieces.Length>0)
             {
                 foreach (var piece in puzzlePieces)
@@ -47,10 +54,6 @@ public class BoardManager : MonoBehaviour
             }
         puzzleBoard =puzzleDataVisualizer.CreateBoardVisual();
         puzzlePieces = puzzleDataVisualizer.CreatePuzzlePiecesVisual();
-        if (useLineRenderer)
-            puzzleDataVisualizer = new PuzzleDataVisualizerWithLineRenderers(puzzleData, materialPrefab);
-        else
-            puzzleDataVisualizer = new PuzzleDataVisualizerWithMeshRenderer(puzzleData, materialPrefab);
         SetCamera();
     }
 
