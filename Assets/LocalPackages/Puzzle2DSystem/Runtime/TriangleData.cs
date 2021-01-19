@@ -8,7 +8,7 @@ namespace Puzzle2DSystem
     public class TriangleData
     {
         public ContactPoint ContactPoint { get; }
-        public Vector2 Position { get; }
+        public Vector2 Center { get; }
         public Vector2[] Points { get; }
         public TriangleData[] Neighbours { get; private set; }
         public bool CheckingForPuzzlePiece;
@@ -20,12 +20,12 @@ namespace Puzzle2DSystem
             Points = points;
             if(Points.Length>0)
             {
-                Position = Vector2.zero;
+                Center = Vector2.zero;
                 for (int i = 0; i < Points.Length; i++)
                 {
-                    Position += Points[i];
+                    Center += Points[i];
                 }
-                Position /= Points.Length;
+                Center /= Points.Length;
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Puzzle2DSystem
 {
@@ -7,6 +8,8 @@ namespace Puzzle2DSystem
     {
         public List<TriangleData> TriangleDatas { get; private set; }
         public List<ContactPoint> ContactPoints { get; private set; }
+        public Vector2 Center { get; private set; }
+
 
         public PuzzlePiece(List<TriangleData> triangleDatas)
         {
@@ -26,6 +29,14 @@ namespace Puzzle2DSystem
             TriangleDatas.Add(triangleData);
             if (!ContactPoints.Contains(triangleData.ContactPoint))
                 ContactPoints.Add(triangleData.ContactPoint);
+            CalculateCenter();
+        }
+
+        void CalculateCenter()
+        {
+            Center = Vector2.zero;
+            TriangleDatas.ForEach(t => Center += t.Center);
+            Center /= TriangleDatas.Count;
         }
     }
 

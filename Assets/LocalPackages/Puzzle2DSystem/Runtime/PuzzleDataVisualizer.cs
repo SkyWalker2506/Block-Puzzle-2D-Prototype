@@ -8,8 +8,8 @@ namespace Puzzle2DSystem
         public GameObject[] PuzzlePieces { get; protected set; }
 
 
-        public abstract void CreateBoardVisual();
-        public abstract void CreatePuzzlePiecesVisual();
+        public abstract GameObject CreateBoardVisual();
+        public abstract GameObject[] CreatePuzzlePiecesVisual();
     }
 
 }

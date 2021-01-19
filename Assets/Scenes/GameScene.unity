@@ -238,6 +238,7 @@ MonoBehaviour:
   minPuzzlePieceCount: 4
   maxPuzzlePieceCount: 8
   materialPrefab: {fileID: 2100000, guid: 76eef6842601b654eb11de5833acade8, type: 2}
+  useLineRenderer: 0
 --- !u!4 &520368933
 Transform:
   m_ObjectHideFlags: 0
